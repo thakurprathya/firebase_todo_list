@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const Card = () =>{
     return(
         <div className="card">
-            <div className='todo'>
+            <div className='todo__content'>
                 <input type="checkbox"/>
                 <h3 className='done'>sample task</h3>
             </div>
