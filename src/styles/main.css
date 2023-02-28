@@ -1,0 +1,103 @@
+.nav {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0rem;
+    background-color: #fff;
+    color: black;
+    box-shadow: 0 2px 2px 2px rgba(9, 9, 9, 0.23);
+}
+.avatar{
+    margin-left: 3vw;
+}
+.nav > button{
+    cursor: pointer;
+    margin-right: 3vw;
+    width: 7vw;
+    font-size: 1.2rem;
+    padding: .5rem;
+    border: 1px solid rgb(113, 9, 217);
+    border-radius: 5px;
+    background-color: #645cff;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+.nav > button:hover{
+    transition: 0.3s ease-in-out all;
+    background-color: #4f48cf;
+}
+.todo__box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 12vh auto 10vh auto;
+    background-color: white;
+    width: 35vw;
+    padding: 3rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.todo__box > h1{
+    padding: 1rem;
+    padding-bottom: 1.3rem;
+    font-size: 2.5rem;
+}
+.todo__bar{
+    display: flex;
+    align-items: center;
+}
+.todo__bar > input{
+    margin-right: .1rem;
+    width: 22vw;
+    background-color: #f0f0f2;
+    padding: 0.375rem 0.75rem;
+    border-radius: 2px;
+    border: 1px solid rgb(223, 221, 221);
+    font-size: 1.1rem;
+}
+.todo__bar > input:focus{
+    outline: none;
+}
+.todo__bar > button{
+    cursor: pointer;
+    width: 9vw;
+    font-size: 1.2rem;
+    padding: .3rem;
+    border: 1px solid rgb(113, 9, 217);
+    border-radius: 2px;
+    background-color: #645cff;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+.todo__bar > button:hover{
+    transition: 0.3s ease-in-out all;
+    background-color: #4f48cf;
+}
+
+
+@media screen and (max-width: 810px) {
+    .todo__box{
+        width: 55vw;
+    }
+    .todo__bar > input{
+        width: 35vw;
+    }
+    .todo__bar > button{
+        width: 15vw;
+    }
+}
+@media screen and (max-width: 500px) {
+    .todo__box{
+        width: 66vw;
+    }
+    .todo__bar > input{
+        width: 48vw;
+    }
+    .todo__bar > button{
+        width: 22vw;
+    }
+}
