@@ -26,6 +26,7 @@ const Login = () => {
                 const todoRef = userRef.collection('todos').doc();
                 await todoRef.set({
                     todo: 'Example todo',
+                    completed: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 });
             }

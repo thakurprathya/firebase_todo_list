@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { db } from '../firebase';
 import '../styles/main.css';
+import React, { useEffect, useState } from 'react';
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 import Card from './Card';
+import { db } from '../firebase';
 import { useStateValue } from '../context/StateProvider';
 
 import Avatar from '@mui/material/Avatar';
@@ -18,12 +20,21 @@ const Main = () => {
     
     const HandleSubmit = () =>{
         if(text !== ""){
-            setTodos([...todos, text]);
-            document.getElementById('add__msg').style.display = "block";
-            setTimeout(() => {
-                document.getElementById('add__msg').style.display = "none";
-            }, 1500);
+            try {
+                db.collection('users').doc(user.uid).collection('todos').add({
+                    todo: text,
+                    completed: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                });
+                document.getElementById('add__msg').style.display = "block";
+                setTimeout(() => {
+                    document.getElementById('add__msg').style.display = "none";
+                }, 1500);
+            } catch (error) {
+                alert(error.message);
+            }
         }
+        else{ alert("Can't Submit empty To-Do!!\nEnter Data and Try Again..."); }
     }
     const HandleLogOut = () =>{
         localStorage.clear();
@@ -42,7 +53,8 @@ const Main = () => {
             }
         }
         fetchTodos();
-    }, [user]);
+        // eslint-disable-next-line
+    }, [todos]);
 
     return (
         <>
@@ -65,7 +77,7 @@ const Main = () => {
                 </div>
                 <small id="add__msg">To-do Added!!!</small>
             </div>
-            {!todos ? <div className="todos"></div> :
+            {!todos ? <div className="todos"><h1>Loading...</h1></div> :
                 <div className="todos">
                     {todos.map((doc)=>{
                         return <Card todo={doc.todo} key={doc.id} id={doc.id} todos={todos} setTodos={setTodos}/>
