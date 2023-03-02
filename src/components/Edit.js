@@ -28,6 +28,7 @@ const Edit = () => {
         }
         else{ alert("Can't Update to empty string!!\nEnter Data and Try Again..."); }
     }
+    const HandleKeyDown = (event) =>{ if(event.key === "Enter")HandleClickEdit(); }
 
     useEffect(()=>{
         async function fetchTodo() {
@@ -47,7 +48,7 @@ const Edit = () => {
                 <h1>Edit To-Do</h1>
                 <div className="data">
                     <label>Id:<p>{todoId}</p></label>
-                    <label>To Do:<input type='text' value={edit} placeholder={todo.todo} onChange={(e)=>setEdit(e.target.value)}/></label>
+                    <label>To Do:<input type='text' value={edit} placeholder={todo.todo} onChange={(e)=>setEdit(e.target.value)} onKeyDown={HandleKeyDown}/></label>
                 </div>
                 <button onClick={HandleClickEdit}>Edit</button>
                 <small id="edit__msg">To-do Updated!!</small> 

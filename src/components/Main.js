@@ -26,6 +26,7 @@ const Main = () => {
                     completed: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 });
+                setText("");
                 document.getElementById('add__msg').style.display = "block";
                 setTimeout(() => {
                     document.getElementById('add__msg').style.display = "none";
@@ -36,10 +37,8 @@ const Main = () => {
         }
         else{ alert("Can't Submit empty To-Do!!\nEnter Data and Try Again..."); }
     }
-    const HandleLogOut = () =>{
-        localStorage.clear();
-        window.location= '/';
-    }
+    const HandleKeyDown = (event) =>{ if(event.key === "Enter")HandleSubmit(); }
+    const HandleLogOut = () =>{ localStorage.clear(); window.location= '/'; }
 
     useEffect(() => {
         async function fetchTodos() {
@@ -72,7 +71,7 @@ const Main = () => {
             <div className="todo__box">
                 <h1>To-Do</h1>
                 <div className="todo__bar">
-                    <input type="text" placeholder="Enter Task" value={text} onChange={(e)=>setText(e.target.value)}/>
+                    <input type="text" placeholder="Enter Task" value={text} onChange={(e)=>setText(e.target.value)} onKeyDown={HandleKeyDown}/>
                     <button onClick={HandleSubmit}>Submit</button>
                 </div>
                 <small id="add__msg">To-do Added!!!</small>
