@@ -23,6 +23,12 @@
     top: 8vh;
     left: 1vw;
 }
+.profile__box > p{
+    padding: .2rem;
+}
+.profile__box > p > strong{
+    margin-right: .3rem;
+}
 .nav > button{
     cursor: pointer;
     margin-right: 3vw;
@@ -96,6 +102,7 @@
     cursor: pointer;
     width: 10vw;
     font-size: 1rem;
+    margin-top: .5rem;
     padding: .5rem;
     border: 1px solid black;
     border-radius: 4px;
@@ -108,9 +115,19 @@
     transition: 0.3s ease-in-out all;
     background-color: #59595a;
 }
+small{
+    display: none;
+    padding: 2rem;
+    padding-bottom: 0;
+    font-size: 1.2rem;
+    color: rgb(8, 144, 8);
+}
 
 
 @media screen and (max-width: 810px) {
+    .nav > button{
+        width: 17vw;
+    }
     .todo__box{
         width: 55vw;
     }
@@ -122,6 +139,9 @@
     }
 }
 @media screen and (max-width: 500px) {
+    .nav > button{
+        width: 27vw;
+    }
     .todo__box{
         width: 66vw;
     }
