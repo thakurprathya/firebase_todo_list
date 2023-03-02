@@ -2,21 +2,26 @@ import '../styles/main.css';
 import React, { useEffect, useState } from 'react';
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import Card from './Card';
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
 import { useStateValue } from '../context/StateProvider';
 
 import Avatar from '@mui/material/Avatar';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Main = () => {
     const [{user}] = useStateValue();
     const [todos, setTodos] = useState();
     const [text, setText] = useState("");
     const [hovering, setHovering] = useState(false);
+    const [uploadBox, setUploadBox] = useState(false);
+    const [image, setImage] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const name=user.displayName;
     const email=user.email;
-    const photoURL=user.photoURL;
+    let photoURL=user.photoURL;
     
     const HandleSubmit = () =>{
         if(text !== ""){
@@ -38,6 +43,29 @@ const Main = () => {
         else{ alert("Can't Submit empty To-Do!!\nEnter Data and Try Again..."); }
     }
     const HandleKeyDown = (event) =>{ if(event.key === "Enter")HandleSubmit(); }
+    const HandleImageChange = (event) =>{
+        const file = event.target.files[0];
+        if(file.type.startsWith("image/")){ setImage(event.target.files[0]); }
+        else {
+            alert("Please select an image file with a valid extension (JPG, JPEG, PNG).");
+            event.target.value = null;
+        }
+    }
+    const HandleClickUpdate = () =>{
+        const imageRef = ref(storage, `images/${user.uid}/${image.name}`);
+        uploadBytes(imageRef, image).then(()=>{
+            getDownloadURL(imageRef).then((url)=>{
+                setImageURL(url);
+                db.collection('users').doc(user.uid).update({ photoURL: imageURL });
+                localStorage.setItem('photoURL', imageURL);
+                photoURL= imageURL;
+            }).catch((error)=>alert(error.message, "\nError getting ImageURL!!"));
+            setImage(null);
+        }).catch((error)=>alert(error.message, "\nUpload Error!!"));
+    }
+    const HandleClickClear = () =>{
+        document.getElementById('upload__input').value = null;
+    }
     const HandleLogOut = () =>{ localStorage.clear(); window.location= '/'; }
 
     useEffect(() => {
@@ -63,11 +91,25 @@ const Main = () => {
                         <div className="profile__box" onMouseEnter={()=>setHovering(true)} onMouseLeave={()=>setHovering(false)}>
                             <p><strong>Name:</strong>{name}</p>
                             <p><strong>Email:</strong>{email}</p>
-                            <button className='updatebtn'>Update Avatar</button>
+                            <button className='updatebtn' onClick={()=>setUploadBox(true)}>Update Avatar</button>
                         </div>
                 : ""}
                 <button onClick={HandleLogOut}>Log Out</button>
             </div>
+            {uploadBox ?
+                <div className="upload__box">
+                    <CloseIcon className='closebtn' onClick={()=>setUploadBox(false)}/>
+                    <div>
+                        <h1>Upload New Avatar!!</h1>
+                        <div>
+                            <input id="upload__input" type="file" onChange={HandleImageChange}/>
+                            <button className='clearbtn' onClick={HandleClickClear}>Clear</button>
+                        </div>
+                        <button className='updatebtn' onClick={HandleClickUpdate}>Update</button>
+                    </div>
+                </div>
+            :
+            ""}
             <div className="todo__box">
                 <h1>To-Do</h1>
                 <div className="todo__bar">

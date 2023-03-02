@@ -1,4 +1,5 @@
 export const initialState = {
+    // user: "null",  //trick to bypass login page
     user: null,
     uid: null,
 };

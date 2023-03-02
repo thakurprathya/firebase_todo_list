@@ -16,6 +16,7 @@
 .profile__box{
     background-color: white;
     border: 1px solid rgb(217, 216, 216);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border-radius: 5px;
     padding: 2rem;
     position: absolute;
@@ -125,6 +126,64 @@ small{
 .todos > h1{
     text-align: center;
 }
+.upload__box{
+    width: 60vw;
+    height: 270px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgb(217, 216, 216);
+    border-radius: 5px;
+    background-color: white;
+    position: absolute;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    top: 18vh;
+    left: 20%;
+}
+.upload__box > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.upload__box > div > h1{
+    font-size: 2.5rem;
+    padding: 1rem;
+    padding-bottom: 3.5rem;
+}
+.upload__box > div > div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+#upload__input{
+    margin-left: 1vw;
+    font-size: 1rem;
+    color: #555;
+    background-color: #fff;
+    padding: 1vh 1.7vw;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.closebtn{
+    margin: 0 0 0 57.5vw;
+    cursor: pointer;
+}
+.clearbtn{
+    cursor: pointer;
+    margin-right: 3vw;
+    width: 10vw;
+    font-size: 1.2rem;
+    padding: .5rem;
+    border: 1px solid rgb(113, 9, 217);
+    border-radius: 5px;
+    background-color: #645cff;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 500;
+}
 
 
 @media screen and (max-width: 810px) {
@@ -140,6 +199,22 @@ small{
     .todo__bar > button{
         width: 15vw;
     }
+    .updatebtn{
+        width: 20vw;
+    }
+    .upload__box{
+        left: 8%;
+        width: 80vw;
+    }
+    .upload__box > div > h1{
+        font-size: 2.2rem;
+    }
+    .clearbtn{
+        width: 12vw;
+    }
+    .closebtn{
+        margin-left: 76.5vw;
+    }
 }
 @media screen and (max-width: 500px) {
     .nav > button{
@@ -153,5 +228,30 @@ small{
     }
     .todo__bar > button{
         width: 22vw;
+    }
+    .updatebtn{
+        width: 25vw;
+    }
+    .upload__box{
+        top: 15vh;
+        left: 3.5%;
+        width: 85.5vw;
+        height: 280px;
+    }
+    .upload__box > div > div{
+        flex-direction: column;
+    }
+    .upload__box > div > h1{
+        text-align: center;
+        font-size: 2.1rem;
+        padding-bottom: 1.5rem;
+    }
+    .clearbtn{
+        margin-top: .5vh;
+        padding: .3rem;
+        width: 20vw;
+    }
+    .closebtn{
+        margin-left: 78.5vw;
     }
 }
