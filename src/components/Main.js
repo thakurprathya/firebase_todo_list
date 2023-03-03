@@ -13,15 +13,15 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const Main = () => {
     const [{user}] = useStateValue();
+    const userRef = db.collection('users').doc(user.uid);
     const [todos, setTodos] = useState();
     const [text, setText] = useState("");
     const [hovering, setHovering] = useState(false);
     const [uploadBox, setUploadBox] = useState(false);
     const [image, setImage] = useState(null);
-    const [imageURL, setImageURL] = useState(null);
     const name=user.displayName;
     const email=user.email;
-    let photoURL=user.photoURL;
+    const [photoURL, setPhotoURL] = useState(user.photoURL);
     
     const HandleSubmit = () =>{
         if(text !== ""){
@@ -55,10 +55,16 @@ const Main = () => {
         const imageRef = ref(storage, `images/${user.uid}/${image.name}`);
         uploadBytes(imageRef, image).then(()=>{
             getDownloadURL(imageRef).then((url)=>{
-                setImageURL(url);
-                db.collection('users').doc(user.uid).update({ photoURL: imageURL });
-                localStorage.setItem('photoURL', imageURL);
-                photoURL= imageURL;
+                db.collection('users').doc(user.uid).update({ photoURL: url });
+                localStorage.setItem('photoURL', url);
+                setPhotoURL(url);
+                document.getElementById('update__msg').style.display = "block";
+                setTimeout(() => {
+                    document.getElementById('update__msg').style.display = "none";
+                }, 1500);
+                setTimeout(() => {
+                    setUploadBox(false);
+                }, 2000);
             }).catch((error)=>alert(error.message, "\nError getting ImageURL!!"));
             setImage(null);
         }).catch((error)=>alert(error.message, "\nUpload Error!!"));
@@ -71,7 +77,6 @@ const Main = () => {
     useEffect(() => {
         async function fetchTodos() {
             try {
-                const userRef = db.collection('users').doc(user.uid);
                 const todosSnapshot = await userRef.collection('todos').get();
                 const todosData = todosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 setTodos(todosData);
@@ -82,6 +87,18 @@ const Main = () => {
         fetchTodos();
         // eslint-disable-next-line
     }, [todos]);
+    useEffect(() => {
+        async function fetchPhotoURL() {
+            try {
+                const userData = await userRef.get().then((doc)=>({id: doc.id, ...doc.data()}));
+                setPhotoURL(userData.photoURL);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+        fetchPhotoURL();
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <>
@@ -106,6 +123,7 @@ const Main = () => {
                             <button className='clearbtn' onClick={HandleClickClear}>Clear</button>
                         </div>
                         <button className='updatebtn' onClick={HandleClickUpdate}>Update</button>
+                        <small id="update__msg">Avatar Updated!!</small>
                     </div>
                 </div>
             :

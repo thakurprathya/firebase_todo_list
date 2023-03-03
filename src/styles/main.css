@@ -184,6 +184,9 @@ small{
     text-transform: capitalize;
     font-weight: 500;
 }
+#update__msg{
+    padding-top: 7px;
+}
 
 
 @media screen and (max-width: 810px) {

@@ -40,7 +40,8 @@ const Edit = () => {
             }
         }
         fetchTodo();
-    },[todoRef]);
+        // eslint-disable-next-line
+    },[]);
     
     return (
         <div className='edit'>
