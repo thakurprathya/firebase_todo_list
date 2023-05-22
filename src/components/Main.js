@@ -13,7 +13,12 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const Main = () => {
     const [{user}] = useStateValue();
-    const userRef = db.collection('users').doc(user.uid);
+    let userRef;
+    if(user.uid){
+        userRef = db.collection('users').doc(user.uid);
+    } else {
+        userRef = null;
+    }
     const [todos, setTodos] = useState();
     const [text, setText] = useState("");
     const [hovering, setHovering] = useState(false);
